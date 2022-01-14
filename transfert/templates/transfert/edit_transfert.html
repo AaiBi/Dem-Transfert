@@ -1,0 +1,148 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Modification du Transfert <span class="text-warning">#{{transfert.ref}}</span></h1>
+            </center>
+        </div>
+        <hr>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-12 bg-secondary">
+                <form class="row needs-validation" novalidate method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="ref" value="{{transfert.ref}}">
+                    <div class="col-sm-4 mb-3">
+                        <label class="form-label">
+                            Monnaie
+                            ({% for monnaie in monnaies %}
+                                {% if monnaie.id == transfert.monnaie_id %}
+                                    <span class="text-warning">{{monnaie.nom}}</span>
+                                {% endif %}
+                            {% endfor %})
+                        </label>
+                        <select class="form-select form-control" name="monnaie_id">
+                            {% for monnaie in monnaies %}
+                                <option value="{{monnaie.id}}" class="text-dark">{{monnaie.nom}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                        <label class="form-label">Montant</label>
+                        <input class="form-control" type="number" name="montant" value="{{transfert.montant}}">
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                        <label class="form-label">Commission</label>
+                        <input class="form-control" type="number" name="commission" value="{{transfert.commission}}">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Destination</label>
+                        <input class="form-control" type="text" name="destination" value="{{transfert.destination}}">
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label">Date</label>
+                        <input class="form-control" type="date" name="created" value="{{transfert.created|date:'Y-m-d'}}">
+                    </div>
+                    <div class="col-sm-12">
+                        <button class="btn text-white d-block w-100 btn btn-warning" name="edit_transfert" value="edit_transfert" type="submit">
+                            Modifier ce transfert
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <p></p>
+            <hr>
+            <div class="col-sm-12 bg-secondary">
+                <form class="row needs-validation" novalidate method="POST">
+                    {% csrf_token %}
+                    {% for receveur in receveurs %}
+                        {% if receveur.id == transfert.receveur_id %}
+                            <input type="hidden" name="receveur_id" value="{{receveur.id}}">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label" for="reg-fn">Prénom receveur<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="text" name="prenom" value="{{receveur.prenom}}">
+                                <div class="invalid-feedback">Veuillez entrer votre prénom s'il vous plaît!</div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label" for="reg-ln">Nom de famille receveur<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="text" name="nom" value="{{receveur.nom}}">
+                                <div class="invalid-feedback">Veuillez entrer votre nom de famille s'il vous plaît!</div>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label" for="reg-ln">Numéro de téléphone receveur<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="tel" name="telephone" value="{{receveur.telephone}}">
+                                <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone s'il vous plaît!</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-sm-12">
+                        <button class="btn text-white d-block w-100 btn btn-warning" name="edit_receveur_transfert" value="edit_receveur_transfert" type="submit">
+                            Modifier les informations du receveur
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <p></p>
+            <hr>
+            <div class="col-sm-12 bg-secondary">
+                <form class="row needs-validation" novalidate method="POST">
+                    {% csrf_token %}
+                    {% for client in clients %}
+                        {% if client.id == transfert.client_id %}
+                            <input type="hidden" name="client_id" value="{{client.id}}">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label" for="reg-fn">Prénom client<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="text" name="prenom" id="reg-fn" value="{{client.prenom}}">
+                                <div class="invalid-feedback">Veuillez entrer votre prénom s'il vous plaît!</div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label" for="reg-ln">Nom de famille client<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="text" name="nom" id="reg-ln" value="{{client.nom}}">
+                                <div class="invalid-feedback">Veuillez entrer votre nom de famille s'il vous plaît!</div>
+                            </div>
+                            <div class="col-sm-12 mb-3">
+                                <label class="form-label" for="reg-ln">Numéro de téléphone client<sup class="text-danger ms-1">*</sup></label>
+                                <input class="form-control" type="tel" name="telephone" id="reg-us" value="{{client.telephone}}">
+                                <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone s'il vous plaît!</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-sm-12">
+                        <button class="btn text-white d-block w-100 btn btn-warning" name="edit_customer_transfert" value="edit_customer_transfert" type="submit">
+                            Modifier les informations du client
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

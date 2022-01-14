@@ -1,0 +1,45 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Suppression du Transfert <span class="text-warning">#{{transfert.ref}}</span></h1>
+            </center>
+        </div>
+        <hr>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <h4>Voulez-vous vraiment supprimer ce transfert ?</h4></br>
+            <button type="submit" class="btn btn text-white d-block w-100 btn-danger">Supprimer</button>
+        </form>
+
+    </div>
+{% endblock %}

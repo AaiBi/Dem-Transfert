@@ -1,0 +1,322 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+{% load humanize %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+            <h1 class="h3 mb-2 text-nowrap">Liste de vos Transferts</h1>
+
+            <a class="nav-link-style fs-sm text-nowrap btn btn-info text-white" href="{% url 'nouveau_client' %}">
+                Nouveau transfert
+            </a>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control" type="text" name="search" placeholder="Entrer un code">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <button type="submit" class="btn btn-success" name="search_code" value="search_code">
+                            Rechercher
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+
+        </br>
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        </br></br>
+
+        {% if transfert_info %}
+
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3>Résultat de la recherche</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <ul>
+                            <li>
+                                Code : <b>{{transfert_info.ref}}</b>
+                            </li>
+                            <li>
+                                Montant :
+                                <b>
+                                    {{transfert_info.montant|floatformat:2|intcomma}}
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert_info.monnaie_id == monnaie.id %}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                CFA
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul>
+                            <li>
+                                Commission :
+                                <b>
+                                    {{transfert_info.commission|floatformat:2|intcomma}}
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert.monnaie_id == monnaie.id %}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                CFA
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </li>
+                                    <li>
+                                Destination :
+                                <b>
+                                    {{transfert_info.destination}}
+                                </b>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <ul>
+                    {% for client in clients %}
+                        {% if client.id == transfert_info.client_id %}
+                            <li>
+                                Nom Client :
+                                <b>
+                                    {{client.nom}}
+                                </b>
+                            </li>
+                            <li>
+                                Prénom Client :
+                                <b>
+                                    {{client.prenom}}
+                                </b>
+                            </li>
+                            <li>
+                                Téléphone Client :
+                                <b>
+                                    {{client.telephone}}
+                                </b>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <hr>
+                <ul>
+                    {% for receveur in receveurs %}
+                        {% if receveur.id == transfert_info.receveur_id %}
+                            <li>
+                                Nom Client :
+                                <b>
+                                    {{receveur.nom}}
+                                </b>
+                            </li>
+                            <li>
+                                Prénom Client :
+                                <b>
+                                    {{receveur.prenom}}
+                                </b>
+                            </li>
+                            <li>
+                                Téléphone Client :
+                                <b>
+                                    {{receveur.telephone}}
+                                </b>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <hr>
+                <center class="align-items-center">
+                    <a type="button" class="btn btn-warning" href="{% url 'edit_transfert' transfert_info.id %}" style="font-size: 12px;">
+                        <i class="ai-edit"></i>
+                    </a>
+                    <a type="button" class="btn btn-info" href="{% url 'print_transfert' transfert_info.id %}" style="font-size: 10px;">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/print.png"/>
+                    </a>
+                    <a type="button" class="btn btn-danger" href="{% url 'delete_transfert' transfert_info.id %}" style="font-size: 12px;">
+                        <i class="ai-trash"></i>
+                    </a>
+                </center>
+                </div>
+            </div>
+
+        {% else %}
+
+            <div class="accordion" id="faq">
+                {% for transfert in transferts %}
+                    {% if transfert.created|date:'Y-m-d' == date_du_jour|date:'Y-m-d' %}
+                        <div class="accordion-item shadow">
+                            <h2 class="accordion-header" id="faq-heading-{{transfert.id}}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-{{transfert.id}}" aria-expanded="true" aria-controls="faq-content-{{transfert.id}}">
+                                    #{{transfert.ref}}
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse" id="faq-content-{{transfert.id}}" aria-labelledby="faq-heading-{{transfert.id}}" data-bs-parent="#faq">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <ul>
+                                                <li>
+                                                    Code : <b>{{transfert.ref}}</b>
+                                                </li>
+                                                <li>
+                                                    Montant :
+                                                    <b>
+                                                        {{transfert.montant|floatformat:2|intcomma}}
+                                                        {% for monnaie in monnaies %}
+                                                            {% if transfert.monnaie_id == monnaie.id %}
+                                                                {% if monnaie.nom == "DOLLAR" %}
+                                                                    $
+                                                                {% elif monnaie.nom == "EURO" %}
+                                                                    €
+                                                                {% elif monnaie.nom == "CFA" %}
+                                                                    CFA
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <ul>
+                                                <li>
+                                                    Commission :
+                                                    <b>
+                                                        {{transfert.commission|floatformat:2|intcomma}}
+                                                        {% for monnaie in monnaies %}
+                                                            {% if transfert.monnaie_id == monnaie.id %}
+                                                                {% if monnaie.nom == "DOLLAR" %}
+                                                                    $
+                                                                {% elif monnaie.nom == "EURO" %}
+                                                                    €
+                                                                {% elif monnaie.nom == "CFA" %}
+                                                                    CFA
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </b>
+                                                </li>
+                                                        <li>
+                                                    Destination :
+                                                    <b>
+                                                        {{transfert.destination}}
+                                                    </b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <ul>
+                                        {% for client in clients %}
+                                            {% if client.id == transfert.client_id %}
+                                                <li>
+                                                    Nom Client :
+                                                    <b>
+                                                        {{client.nom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Prénom Client :
+                                                    <b>
+                                                        {{client.prenom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Téléphone Client :
+                                                    <b>
+                                                        {{client.telephone}}
+                                                    </b>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <hr>
+                                    <ul>
+                                        {% for receveur in receveurs %}
+                                            {% if receveur.id == transfert.receveur_id %}
+                                                <li>
+                                                    Nom Client :
+                                                    <b>
+                                                        {{receveur.nom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Prénom Client :
+                                                    <b>
+                                                        {{receveur.prenom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Téléphone Client :
+                                                    <b>
+                                                        {{receveur.telephone}}
+                                                    </b>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <hr>
+                                    <center class="align-items-center">
+                                        <a type="button" class="btn btn-warning" href="{% url 'edit_transfert' transfert.id %}" style="font-size: 12px;">
+                                            <i class="ai-edit"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-info" href="{% url 'print_transfert' transfert.id %}" style="font-size: 10px;">
+                                            <img src="https://img.icons8.com/material-outlined/24/000000/print.png"/>
+                                        </a>
+                                        <a type="button" class="btn btn-danger" href="{% url 'delete_transfert' transfert.id %}" style="font-size: 12px;">
+                                            <i class="ai-trash"></i>
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}

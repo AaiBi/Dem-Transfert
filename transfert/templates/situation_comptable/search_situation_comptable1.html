@@ -1,0 +1,183 @@
+{% load humanize %}
+<div class="container-fluid" style="height: 90px;">
+    <div class="row">
+        <div class="col-sm-4" style="margin-top: 10px;">
+            <center><b style="font-size: 18px;">
+             BUREAU DE CHANGE AGREMENT N° BC 00458/2011 MEF/ DMC</br>
+                 NINEA N° 27063592 B1</br>
+               </b>
+            </center>
+        </div>
+        <div class="col-sm-2" style="margin-top: 10px;">
+        </div>
+        <div class="col-sm-6" style="margin-top: 10px;">
+            <center><b style="font-size: 18px;">
+                 62,RUE PAUL HOLLE X TOLBIAC DAKAR ( SENEGAL)</br>
+                 TEL/FAX: (+221) 33-822-03-85</br>
+            </b></center>
+        </div>
+    </div>
+</div>
+
+<!-- corps de la page -->
+<div class="container-fluid">
+  	<div class="row">
+  	    <div class="col-sm-12" style="background-image: url('images/money.jpg');">
+            <div class="container-fluid" style="height: 50px;">
+                <div class="row">
+                    <div class="col-sm-12" style="margin-top: 10px;">
+                        <span>
+                            <center>
+                                <b style="font-size: 25px;"> Dakar le
+                                    {% load i18n %}
+                                    {% language 'fr' %}
+                                        {{search|date:'d F Y'}}
+                                    {% endlanguage %}
+                                <u></u> </b> </center>
+                        </span>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                     <button type="button" OnClick="javascript:window.print()" class="glyphicon glyphicon-print" style="margin-top: 10px; float: right; margin-left: 50px; height: 50px; font-size: 30px; width: 100px; color: #00416c" data-toggle="modal" data-target="#NewEnvoie">
+                    </button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table datatable-sorting" id="TableauTransfert" style="margin-bottom: none; table-layout:fixed;">
+    <thead>
+        <tr>
+            <th style="width: 70px; border: solid;"><center><b>Code</b></center></th>
+            <th style="border: solid; width: 120px;"><center><b>Destination</b></center></th>
+            <th style="border: solid; width: 250px;"><center><b>Expediteur</b></center></th>
+            <th style="border: solid; width: 250px;"><center><b>Receveur</b></center></th>
+            <th style="border: solid; width: 150px;" colspan="2"><center><b>Euro(€)</b></center></th>
+            <th style="border: solid; width: 150px;" colspan="2"><center><b>Dollar($)</b></center></th>
+            <th style="border: solid; width: 200px;" colspan="2"><center><b>CFA</b></center></th>
+        </tr>
+    </thead>
+    <tbody style="border:solid">
+
+        {% for transfert in transferts %}
+
+            <tr class="table" style="border: solid; color: black; ">
+                <td style="border: solid; word-wrap: break-word;">
+                    <b>{{transfert.ref}}</b>
+                </td>
+                <td style="border: solid; word-wrap: break-word;">
+                    <b>{{transfert.destination}}</b>
+                </td>
+                {% for client in clients %}
+                    {% if client.id == transfert.client_id %}
+                        <td style="border: solid; word-wrap: break-word;">
+                            <b>{{client.prenom}} {{client.nom}} {{client.telephone}}</b>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+                {% for receveur in receveurs %}
+                    {% if receveur.id == transfert.receveur_id %}
+                        <td style="border: solid; word-wrap: break-word;">
+                            <b>{{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}</b>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "EURO" %}
+                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "DOLLAR" %}
+                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "CFA" %}
+                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+
+        {% endfor %}
+        <tr class="table" style="border: solid; color: black; font-size: 18px;">
+            <td style="border: solid;" colspan="4">
+                <center><b>{{number_transferts}}</b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_montant_transfert_euro == None %}
+                        0
+                    {% else %}
+                        {{total_montant_transfert_euro|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_commission_transfert_euro == None %}
+                        0
+                    {% else %}
+                        {{total_commission_transfert_euro|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_montant_transfert_dollar == None %}
+                        0
+                    {% else %}
+                        {{total_montant_transfert_dollar|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_commission_transfert_dollar == None %}
+                        0
+                    {% else %}
+                        {{total_commission_transfert_dollar|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_montant_transfert_cfa == None %}
+                        0
+                    {% else %}
+                        {{total_montant_transfert_cfa|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+            <td style="border: solid;">
+                <center><b>
+                    {% if total_commission_transfert_cfa == None %}
+                        0
+                    {% else %}
+                        {{total_commission_transfert_cfa|floatformat:2|intcomma}}
+                    {% endif %}
+                </b></center>
+            </td>
+        </tr>
+    </tbody>
+</table></br>
+{% for text in note %}
+    {% if text.created|date:'Y-m-d' == search %}
+        <div class="card card-body">
+            <b>Note: </b> {{text.message|capfirst}}
+        </div>
+    {% endif %}
+{% endfor %}

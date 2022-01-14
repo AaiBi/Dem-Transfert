@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %} {% endblock %}</title>
+        <!-- Viewport-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="msapplication-TileColor" content="#766df4">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Page loading styles-->
+        <style>
+            .page-loading {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                -webkit-transition: all .4s .2s ease-in-out;
+                transition: all .4s .2s ease-in-out;
+                background-color: #fff;
+                opacity: 0;
+                visibility: hidden;
+                z-index: 9999;
+            }
+            .page-loading.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            .page-loading-inner {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                -webkit-transition: opacity .2s ease-in-out;
+                transition: opacity .2s ease-in-out;
+                opacity: 0;
+            }
+            .page-loading.active > .page-loading-inner {
+                opacity: 1;
+            }
+            .page-loading-inner > span {
+                display: block;
+                font-family: 'Inter', sans-serif;
+                font-size: 1rem;
+                font-weight: normal;
+                color: #737491;
+            }
+            .page-spinner {
+                display: inline-block;
+                width: 2.75rem;
+                height: 2.75rem;
+                margin-bottom: .75rem;
+                vertical-align: text-bottom;
+                border: .15em solid #766df4;
+                border-right-color: transparent;
+                border-radius: 50%;
+                -webkit-animation: spinner .75s linear infinite;
+                animation: spinner .75s linear infinite;
+            }
+            @-webkit-keyframes spinner {
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes spinner {
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+        {% block css_styles %} {% endblock %}
+        <style>
+            .active{
+            color: #d4ac0d;
+        }
+        </style>
+        <!-- Page loading scripts-->
+        <script>
+
+            (function () {
+                window.onload = function () {
+                    var preloader = document.querySelector('.page-loading');
+                    preloader.classList.remove('active');
+                    setTimeout(function () {
+                        preloader.remove();
+                    }, 2000);
+                };
+            })();
+
+        </script>
+        <!-- Vendor Styles-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/tiny-slider/dist/tiny-slider.css' %}"/>
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/lightgallery.js/dist/css/lightgallery.min.css' %}"/>
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/flatpickr/dist/flatpickr.min.css' %}"/>
+
+        <!-- Vendor Styles-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/simplebar/dist/simplebar.min.css' %}"/>
+        <!-- Main Theme Styles + Bootstrap-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/css/theme.min.css' %}">
+    </head>
+    <!-- Body-->
+    <body>
+        <!-- Page loading spinner-->
+        <div class="page-loading active">
+            <div class="page-loading-inner">
+                <div class="page-spinner"></div><span>Loading...</span>
+            </div>
+        </div>
+
+        <main class="page-wrapper">
+            <!-- Page content-->
+            <div class="container position-relative zindex-5 pb-4 mb-md-3" style="margin-top: 50px;">
+                <div class="row">
+                    <!-- Sidebar-->
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <div class="bg-dark rounded-3 shadow-lg">
+                            <div class="px-4 py-4 mb-1 text-center"><img class="d-block rounded-circle mx-auto my-2" src="https://www.shareicon.net/data/512x512/2016/01/13/702410_users_512x512.png" width="110">
+                                <h6 class="mb-0 pt-1 text-white">{{user.first_name}} {{user.last_name}}</h6><span class="text-muted fs-sm">@{{user.username}}</span>
+                            </div>
+                            <div class="d-lg-none px-4 pb-4 text-center">
+                                <a class="btn btn-primary px-5 mb-2" href="#account-menu" data-bs-toggle="collapse">
+                                    <i class="ai-menu me-2"></i>
+                                    Account menu
+                                </a>
+                            </div>
+                            <div class="d-lg-block collapse pb-2" id="account-menu">
+                                <h3 class="d-block text-dark fs-sm fw-semibold mb-0 px-4 py-3 bg-secondary">Tableau de bord</h3>
+                                <a class="d-flex text-white align-items-center nav-link-style px-4 py-3" href="{% url 'transfert' %}">
+                                    <i class="ai-plus fs-lg opacity-60 me-2"></i>
+                                    Transferts
+                                </a>
+                                <a class="d-flex text-white align-items-center nav-link-style px-4 py-3" href="{% url 'client' %}">
+                                    <i class="ai-plus fs-lg opacity-60 me-2"></i>
+                                    Clients
+                                </a>
+                                <a class="d-flex text-white align-items-center nav-link-style px-4 py-3" href="{% url 'situation_comptable' %}">
+                                    <i class="ai-plus fs-lg opacity-60 me-2"></i>
+                                    Situation Comptable
+                                </a>
+                                <a class="d-flex text-white align-items-center nav-link-style px-4 py-3" href="{% url 'prefixe_code' %}">
+                                    <i class="ai-plus fs-lg opacity-60 me-2"></i>
+                                    Prefixe du Code d'envoie
+                                </a>
+                                <h3 class="d-block text-dark fs-sm fw-semibold mb-0 px-4 py-3 bg-secondary">Paramètres du compte</h3>
+                                <a class="d-flex align-items-center text-white nav-link-style px-4 py-3" href="{% url 'profile' %}">
+                                    Mon Profile
+                                </a>
+                                <a class="d-flex align-items-center text-white nav-link-style px-4 py-3" href="{% url 'user_password_change' %}">
+                                    Modification du mot de passe
+                                </a>
+                                <form action="{% url 'logout_user' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" style="width:100%">Déconnexion</button>
+                                </form>
+                            </div>
+                        </div>
+                      </div>
+                    <!-- Content-->
+                    <div class="col-lg-8">
+                        <div class="card d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+                            <div class="py-2 p-md-3">
+                                {% block content %} {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll data-fixed-element><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ai-arrow-up">   </i></a>
+
+        <!-- Vendor scrits: js libraries and plugins-->
+        <script src="{% static 'base_app/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/simplebar/dist/simplebar.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/parallax-js/dist/parallax.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+
+        <script src="{% static 'base_app/vendor/lightgallery.js/dist/js/lightgallery.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/lg-fullscreen.js/dist/lg-fullscreen.min.js' %}"></script>
+
+        <script src="{% static 'base_app/vendor/lg-zoom.js/dist/lg-zoom.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/shufflejs/dist/shuffle.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/flatpickr/dist/flatpickr.min.js' %}"></script>
+
+        <!-- Main theme script-->
+        <script src="{% static 'base_app/js/theme.min.js' %}"></script>
+        <script>
+            var alert1 = document.getElementById("alert1");
+            var alert2 = document.getElementById("alert2");
+            setTimeout(function(){
+               alert1.style.display = "none";
+            }, 10000);
+            setTimeout(function(){
+               alert2.style.display = "none";
+            }, 15000);
+            // Timeout is 15 sec, you can change it
+        </script>
+        {% block js %} {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %} {% endblock %}</title>
+        <!-- Viewport-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="msapplication-TileColor" content="#766df4">
+        <meta name="theme-color" content="#ffffff">
+        <!-- Page loading styles-->
+        <style>
+            .page-loading {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                -webkit-transition: all .4s .2s ease-in-out;
+                transition: all .4s .2s ease-in-out;
+                background-color: #fff;
+                opacity: 0;
+                visibility: hidden;
+                z-index: 9999;
+            }
+            .page-loading.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            .page-loading-inner {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                -webkit-transition: opacity .2s ease-in-out;
+                transition: opacity .2s ease-in-out;
+                opacity: 0;
+            }
+            .page-loading.active > .page-loading-inner {
+                opacity: 1;
+            }
+            .page-loading-inner > span {
+                display: block;
+                font-family: 'Inter', sans-serif;
+                font-size: 1rem;
+                font-weight: normal;
+                color: #737491;
+            }
+            .page-spinner {
+                display: inline-block;
+                width: 2.75rem;
+                height: 2.75rem;
+                margin-bottom: .75rem;
+                vertical-align: text-bottom;
+                border: .15em solid #766df4;
+                border-right-color: transparent;
+                border-radius: 50%;
+                -webkit-animation: spinner .75s linear infinite;
+                animation: spinner .75s linear infinite;
+            }
+            @-webkit-keyframes spinner {
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes spinner {
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+
+        <!-- Page loading scripts-->
+        <script>
+
+            (function () {
+                window.onload = function () {
+                    var preloader = document.querySelector('.page-loading');
+                    preloader.classList.remove('active');
+                    setTimeout(function () {
+                        preloader.remove();
+                    }, 2000);
+                };
+            })();
+
+        </script>
+        <!-- Vendor Styles-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/tiny-slider/dist/tiny-slider.css' %}"/>
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/lightgallery.js/dist/css/lightgallery.min.css' %}"/>
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/flatpickr/dist/flatpickr.min.css' %}"/>
+
+        <!-- Vendor Styles-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/vendor/simplebar/dist/simplebar.min.css' %}"/>
+        <!-- Main Theme Styles + Bootstrap-->
+        <link rel="stylesheet" media="screen" href="{% static 'base_app/css/theme.min.css' %}">
+    </head>
+    <!-- Body-->
+    <body>
+        <!-- Page loading spinner-->
+        <div class="page-loading active">
+            <div class="page-loading-inner">
+                <div class="page-spinner"></div><span>Loading...</span>
+            </div>
+        </div>
+
+        <!-- Page content-->
+        <!-- Background image-->
+        <div class="d-none d-md-block position-absolute w-50 h-100 bg-size-cover" style="top: 0; right: 0; background-image: url({% static 'base_app/img/money_transfert.jpg' %});"></div>
+        <!-- Actual content-->
+        <section class="container d-flex align-items-center pt-3 pb-3 pb-md-4" style="flex: 1 0 auto;">
+            <div class="w-100 pt-3">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 offset-lg-1">
+                        <!-- Sign in view-->
+                        <div class="view show" id="signin-view">
+                            <h1 class="h2">Connexion</h1>
+
+                            {% if error %}
+                                <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                                    {{ error }}
+                                </div>
+                            {% else %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                                            {{message}}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                            <form class="needs-validation" novalidate method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <i class="ai-mail position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                    <input class="form-control rounded" name="username" type="text" placeholder="Entrez votre nom d'utilisateur" required>
+                                </div>
+                                <div class="input-group mb-3"><i class="ai-lock position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                    <div class="password-toggle w-100">
+                                        <input class="form-control" name="password" type="password" placeholder="Mot de passe" required>
+                                        <label class="password-toggle-btn" aria-label="Show/hide password">
+                                            <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                              <button class="btn btn-primary d-block w-100" type="submit">connexion</button>
+                            </form>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll data-fixed-element><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ai-arrow-up">   </i></a>
+
+        <!-- Vendor scrits: js libraries and plugins-->
+        <script src="{% static 'base_app/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/simplebar/dist/simplebar.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/parallax-js/dist/parallax.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+
+        <script src="{% static 'base_app/vendor/lightgallery.js/dist/js/lightgallery.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/lg-fullscreen.js/dist/lg-fullscreen.min.js' %}"></script>
+
+        <script src="{% static 'base_app/vendor/lg-zoom.js/dist/lg-zoom.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/shufflejs/dist/shuffle.min.js' %}"></script>
+        <script src="{% static 'base_app/vendor/flatpickr/dist/flatpickr.min.js' %}"></script>
+
+        <!-- Main theme script-->
+        <script src="{% static 'base_app/js/theme.min.js' %}"></script>
+        <script>
+            var alert1 = document.getElementById("alert1");
+            var alert2 = document.getElementById("alert2");
+            setTimeout(function(){
+               alert1.style.display = "none";
+            }, 10000);
+            setTimeout(function(){
+               alert2.style.display = "none";
+            }, 15000);
+            // Timeout is 15 sec, you can change it
+        </script>
+        {% block js %} {% endblock %}
+  </body>
+</html>

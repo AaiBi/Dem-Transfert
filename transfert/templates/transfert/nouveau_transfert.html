@@ -1,0 +1,121 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Nouveau Transfert</h1>
+            </center>
+        </div>
+        <hr>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <form class="row needs-validation" novalidate method="POST">
+            <h4 class="mb-2 text-nowrap">Informations sur le transfert</h4>
+            {% csrf_token %}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-info">
+                    <b>Code du dernier transfert</b>: <span class="text-warning">{{dernier_transfert.ref}}</span>
+                </li>
+            </ul>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Code<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="number" name="ref" value="{{code_last_transfert}}" required>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Montant<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="number" name="montant" required>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Commission<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="number" name="commission" required>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Monnaie<sup class="text-danger ms-1">*</sup></label>
+                <select class="form-select form-control" name="monnaie_id" required="">
+                    <option selected disabled value="">-------------------------</option>
+                    {% for monnaie in monnaies %}
+                        <option value="{{monnaie.id}}" class="text-dark">{{monnaie.nom}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Destination<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="text" name="destination" required>
+            </div>
+            <div class="col-sm-4 mb-3">
+                <label class="form-label">Date<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="date" name="created" value="{{date_du_jour|date:'Y-m-d'}}">
+            </div>
+            <div class="col-sm-12">
+                <button class="btn text-white d-block w-100 btn btn-success" type="submit">Ajouter un nouveau transfert</button>
+            </div>
+        </form>
+
+        <hr>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-2 text-nowrap">Informations du Client</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Nom</b>: {{client.nom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Prénom</b>: {{client.prenom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Téléphone</b>: {{client.telephone}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-2 text-nowrap">Informations du Receveur</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Nom</b>: {{receveur.nom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Prénom</b>: {{receveur.prenom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Téléphone</b>: {{receveur.telephone}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

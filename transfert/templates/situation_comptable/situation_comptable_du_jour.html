@@ -1,0 +1,141 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+{% load humanize %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+            <h1 class="h3 mb-2 text-nowrap">
+                Situation Comptable du Jour -
+                {% load i18n %}
+                {% language 'fr' %}
+                    {{date_du_jour|date:'d F Y'}}
+                {% endlanguage %}
+            </h1>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        </br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <center>
+                        <a type="button" class="btn btn-info" href="{% url 'print_situation_comptable_du_jour' %}" data-bs-toggle="tooltip" title="Cliquer pour plus de détails" style="text-decoration: none;">
+                            Imprimer la situation comptable
+                        </a>
+                    </center>
+                </div>
+                <div class="col-sm-6">
+                    <div class="accordion-item shadow">
+                        {% if note.created|date:'d F Y' == date_du_jour|date:'d F Y' %}
+                            <div class="card card-body">
+                                {{note.message}}
+                            </div>
+                        {% else %}
+                            <h2 class="accordion-header" id="faq-heading-1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" aria-expanded="true" aria-controls="faq-content-1}">
+                                    Ajouter une note
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse" id="faq-content-1" aria-labelledby="faq-heading-1" data-bs-parent="#faq1">
+                                <div class="accordion-body">
+                                    <form class="row needs-validation" novalidate method="POST">
+                                        {% csrf_token %}
+                                        <div class="col-sm-12 mb-3">
+                                            <textarea class="form-control" name="message" placeholder="Entre votre message" ></textarea>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn text-white d-block w-100 btn btn-success" type="submit">Ajouter une note</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </br>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Expéditeur</th>
+                    <th scope="col">Réceveur</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Commission</th>
+                    <th scope="col">Monnaie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transfert in transferts %}
+                    {% if transfert.created|date:'d F Y' == date_du_jour|date:'d F Y' %}
+                        <tr>
+                            <th scope="row">{{transfert.ref}}</th>
+                            <td>{{transfert.destination}}</td>
+                            <td>
+                                {% for client in clients %}
+                                    {% if client.id == transfert.client_id %}
+                                        {{client.prenom}} {{client.nom}} {{client.telephone}}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for receveur in receveurs %}
+                                    {% if receveur.id == transfert.receveur_id %}
+                                        {{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {{transfert.montant|floatformat:2|intcomma}}
+                            </td>
+                            <td>
+                                {{transfert.commission|floatformat:2|intcomma}}
+                            </td>
+                            <td>
+                            {% for monnaie in monnaies %}
+                                {% if transfert.monnaie_id == monnaie.id %}
+                                    {{monnaie.nom}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+{% endblock %}

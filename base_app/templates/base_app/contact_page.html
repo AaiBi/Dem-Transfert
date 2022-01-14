@@ -1,0 +1,185 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Contact {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+    <!-- Page content-->
+      <!-- Page title-->
+      <section class="jarallax bg-gradient pt-5 pb-7 pt-md-7" data-jarallax data-speed="0.25">
+          <span class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-80"></span>
+          <div class="jarallax-img" style="background-image: url({% static 'base_app/contact_image.jpg' %});"></div>
+          <div class="container position-relative zindex-5 pt-3 pb-7 pt-md-0">
+
+              {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                        {{ error }}
+                    </div>
+              {% else %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+              {% endif %}
+
+              <div class="row justify-content-center py-md-5">
+                  <div class="col-lg-6 col-md-8 text-center pt-2 mb-n3">
+                      <h1 class="text-light">Contact</h1>
+                      <p class="text-light">Contactez-nous en remplissant le formulaire de contact ou appelez-nous maintenant. On répond normalement au bout d'une heure.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <!-- Contact cards (details)-->
+      <section class="container-fluid bg-overlay-content mb-5 mb-md-6" style="margin-top: -120px;">
+          <div class="row">
+              <div class="col-lg-3 col-sm-6 mb-grid-gutter">
+                  <div class="card h-100 border-0 shadow-lg py-4">
+                      <div class="card-body text-center"><i class="ai-map-pin mb-4 text-primary" style="font-size: 2.25rem;"></i>
+                          <h3 class="h6 mb-2">Adresse, Location</h3>
+                          <p class="fs-sm mb-2">VDN, cité CPI lot 30, Dakar </p>
+                          <a class="fancy-link fs-sm" href="https://g.page/asisenegal?share" data-scroll>See on the map</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-grid-gutter">
+                  <div class="card h-100 border-0 shadow-lg py-4">
+                      <div class="card-body text-center"><i class="ai-clock mb-4 text-danger" style="font-size: 2.25rem;"></i>
+                          <h3 class="h6 mb-2">Heures de travail</h3>
+                          <ul class="list-unstyled fs-sm mb-0">
+                              <li>Lundi - Vendredi: 9h - 17h </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-grid-gutter">
+                  <div class="card h-100 border-0 shadow-lg py-4">
+                      <div class="card-body text-center"><i class="ai-phone mb-4 text-success" style="font-size: 2.25rem;"></i>
+                          <h3 class="h6 mb-2">Numéros de téléphone</h3>
+                          <ul class="list-unstyled fs-sm mb-0">
+                              <li>
+                                  <span class="me-1">Service client:</span>
+                                  <a class="nav-link-style" href="tel:+108044357260">+221 (33) 884 07 20</a>
+                              </li>
+                              <li>
+                                  <span class="me-1">WhatsApp:</span>
+                                  <a class="nav-link-style" href="https://api.whatsapp.com/send?phone=+221770919122">
+                                      <i class="ai-whatsapp"></i>
+                                      +221 77 091 91 22
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-grid-gutter">
+              <div class="card h-100 border-0 shadow-lg py-4">
+                  <div class="card-body text-center"><i class="ai-mail mb-4 text-warning" style="font-size: 2.25rem;"></i>
+                      <h3 class="h6 mb-2">Addresse Email</h3>
+                      <ul class="list-unstyled fs-sm mb-0">
+                          <li>
+                              <span class="me-1">Service clientel:</span>
+                              <a class="nav-link-style" href="mailto:sheyp.sarl@gmail.com">sheyp.sarl@gmail.com</a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </section>
+      <!-- Map + Contact form-->
+      <section class="border-top" id="map">
+          <div class="row g-0 gallery">
+              <div class="col-lg-6 gallery-item map-popup d-flex flex-columnt justify-content-center  d-inline-block py-4 py-md-6">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2833.716694106855!2d-17.474416980060212!3d14.730785234380697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec10d53fd6bff2b%3A0x1836b9fc075991cc!2sASI!5e1!3m2!1sfr!2sus!4v1635479585728!5m2!1sfr!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+              <div class="col-lg-6 px-3 px-lg-5">
+                  <div class="pt-5 pb-6 pt-md-6 mx-auto" style="max-width: 720px;">
+                      <h2 class="h3 pb-4">Écrivez-vous</h2>
+                      <form class="needs-validation row" novalidate method="POST" name="sentMessage">
+                          {% csrf_token %}
+                          <div class="col-sm-6 mb-3 pb-1">
+                              <label class="form-label" for="cont-fn">Nom complet<sup class="text-danger ms-1">*</sup></label>
+                              <input class="form-control" type="text" name="full_name" id="cont-fn" placeholder="ex: Adama Ndiaye" required>
+                              <div class="invalid-feedback">Entrez votre nom au complet!</div>
+                          </div>
+                          <div class="col-sm-6 mb-3 pb-1">
+                              <label class="form-label" for="cont-email">Email<sup class="text-danger ms-1">*</sup></label>
+                              <input class="form-control" name="email" type="email" id="cont-email" placeholder="j.doe@example.com" required>
+                              <div class="invalid-feedback">Entrez une adresse email valide!</div>
+                          </div>
+                          <div class="col-sm-6 mb-3 pb-1">
+                              <label class="form-label" for="cont-phone">Numéro Téléphone</label>
+                              <input class="form-control bg-image-0" name="phone_number" type="tel" id="cont-phone" data-format="custom" data-delimiter="-" data-blocks="2 4 2 2" placeholder="00-000-00-00">
+                          </div>
+                          <div class="col-sm-6 mb-3 pb-1">
+                              <label class="form-label" for="cont-subject">Sujet</label>
+                              <input class="form-control bg-image-0" name="subject" type="text" id="cont-subject" placeholder="Titre du message">
+                          </div>
+                          <div class="col-12 mb-3 pb-1">
+                              <label class="form-label" for="cont-message">Message<sup class="text-danger ms-1">*</sup></label>
+                              <textarea class="form-control" name="message" id="cont-message" rows="4" placeholder="" required></textarea>
+                              <div class="invalid-feedback">Entrer votre message!</div>
+                          </div>
+                          <div class="col-12 pt-2">
+                              <button class="btn text-white" type="submit" style="background-color: #d4ac0d;">Envoyer Message</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </section>
+{% endblock %}
+
+{% block footer %}
+    <footer class="footer container-fluid bg-dark">
+        </br>
+        <div class="row">
+            <div class="col-xl-5 col-lg-5 col-md-4 mb-5 text-center text-md-start">
+                <h2 class="mb-4">Suivez-nous sur les réseaux sociaux</h2>
+                <div class="pt-2">
+                    <a class="btn-social bs-outline bs-lg bs-facebook me-2 mb-2" href="#"><i class="ai-facebook"></i></a>
+                    <a class="btn-social bs-outline bs-lg bs-twitter me-2 mb-2" href="#"><i class="ai-twitter"></i></a>
+                    <a class="btn-social bs-outline bs-lg bs-instagram me-2 mb-2" href="#"><i class="ai-instagram"></i></a>
+                    <a class="btn-social bs-outline bs-lg bs-google me-2 mb-2" href="#"><i class="ai-google"></i></a>
+                </div>
+            </div>
+            <div class="col-xl-7 col-lg-7 col-md-8 mb-5">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">Sheyp</h4>
+                            <ul>
+                                <li><a class="widget-link" href="{% url 'index' %}">Acceuil</a></li>
+                                <li><a class="widget-link" href="{% url 'contact_page' %}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">Services</h4>
+                            <ul>
+                                <li><a class="widget-link" href="{% url 'construction' %}">Construction</a></li>
+                                <li><a class="widget-link" href="real_estate">Immobilier</a></li>
+                                <li><a class="widget-link" href="#">Gestion d'Investissements</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top py-4">
+        <div class="d-md-flex align-items-center justify-content-between py-2 text-center text-md-start">
+          <p class="fs-sm mb-0 me-3 order-md-1"><span class="text-muted me-1">© All rights reserved. Made by</span><a class="nav-link-style fw-normal" href="https://createx.studio/" target="_blank" rel="noopener">Createx Studio</a></p>
+        </div>
+      </div>
+    </footer>
+{% endblock %}

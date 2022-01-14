@@ -1,0 +1,286 @@
+{% load humanize %}
+<!-- entete de la page -->
+<div class="container-fluid" style="height: 90px; margin-top: 100px;">
+    <div class="row">
+        <div class="col-sm-4" style="margin-top: 10px;">
+            <center>
+                <b style="font-size: 17px; color: black;">
+                    BUREAU DE CHANGE AGREMENT N° BC 00458/2011 MEF/ DMC</br>
+                    NINEA N° 27063592 B1</br>
+                </b>
+            </center>
+        </div>
+        <div class="col-sm-6" style="margin-top: 10px;">
+            <center>
+                <b style="font-size: 17px; color: black;">
+                    62,RUE PAUL HOLLE X TOLBIAC DAKAR ( SENEGAL)</br>
+                    TEL/FAX: (+221) 33-822-03-85</br>
+                </b>
+            </center>
+        </div>
+        <div class="col-sm-2" style="margin-top: 10px;">
+        </div>
+    </div>
+</div>
+
+<!--corps de la page-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10" style="margin-top: 70px;">
+            <p>
+                <center><b style="font-size: 16px;">
+                    Dakar le
+                    {% load i18n %}
+                    {% language 'fr' %}
+                        {{date_du_jour|date:'d F Y'}}
+                    {% endlanguage %}
+                </b></center>
+            </p>
+            <table class="table datatable-sorting" style=" table-layout:fixed;" border="1">
+                <thead>
+                    <tr style="border: solid">
+                        <th style="color:black; font-size: 14px; width: 60px;"><CENTER><b>Codes</b></CENTER></th>
+                        <th style="color:black; font-size: 14px; width: 100px;"><center><b>Destination</b></center></th>
+                        <th style="color:black; font-size: 14px;"><center><b>Expéditeur</b></center></th>
+                        <th style="color:black; font-size: 14px;"><center><b>Réceveur</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 90px;"><center><b>Montant</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 80px;"><center><b>Com.</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 85px;"><center><b>Monnaie</b></center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.ref}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.destination}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for client in clients %}
+                                        {% if client.id == transfert.client_id %}
+                                            {{client.prenom}} {{client.nom}} {{client.telephone}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for receveur in receveurs %}
+                                        {% if receveur.id == transfert.receveur_id %}
+                                            {{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.montant|floatformat:2|intcomma}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.commission|floatformat:2|intcomma}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert.monnaie_id == monnaie.id %}
+                                            {{monnaie.nom}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2" style="">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4" style="">
+            <p>
+                <b style="font-size: 16px;">Le Caissier</b></br></br></br></br></br>
+            </p>
+        </div>
+        <div class="col-sm-2" style="">
+
+        </div>
+        <div class="col-sm-5">
+            <b style="font-size: 16px;">Le Client</b></br></br></br></br></br></p>
+          <!-- <button type="button" OnClick="javascript:window.print()" class="glyphicon glyphicon-print" style="margin-top: 10px; float: right; margin-left: 50px; height: 50px; font-size: 30px; width: 100px; color: black" data-toggle="modal" data-target="#NewEnvoie"> -->
+        </div>
+        <div class="col-sm-1" style="">
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- entete de la page -->
+<div class="container-fluid" style="height: 90px; margin-top: 100px;">
+    <div class="row">
+        <div class="col-sm-4" style="margin-top: 10px;">
+            <center>
+                <b style="font-size: 17px; color: black;">
+                    BUREAU DE CHANGE AGREMENT N° BC 00458/2011 MEF/ DMC</br>
+                    NINEA N° 27063592 B1</br>
+                </b>
+            </center>
+        </div>
+        <div class="col-sm-6" style="margin-top: 10px;">
+            <center>
+                <b style="font-size: 17px; color: black;">
+                    62,RUE PAUL HOLLE X TOLBIAC DAKAR ( SENEGAL)</br>
+                    TEL/FAX: (+221) 33-822-03-85</br>
+                </b>
+            </center>
+        </div>
+        <div class="col-sm-2" style="margin-top: 10px;">
+        </div>
+    </div>
+</div>
+
+<!--corps de la page-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10" style="margin-top: 70px;">
+            <p>
+                <center>
+                    <b style="font-size: 16px;">
+                        Dakar le
+                        {% load i18n %}
+                        {% language 'fr' %}
+                            {{date_du_jour|date:'d F Y'}}
+                        {% endlanguage %}
+                    </b>
+                </center>
+            </p>
+            <table class="table datatable-sorting" style=" table-layout:fixed;" border="1">
+                <thead>
+                    <tr style="border: solid">
+                        <th style="color:black; font-size: 14px; width: 60px;"><CENTER><b>Codes</b></CENTER></th>
+                        <th style="color:black; font-size: 14px; width: 100px;"><center><b>Destination</b></center></th>
+                        <th style="color:black; font-size: 14px;"><center><b>Expéditeur</b></center></th>
+                        <th style="color:black; font-size: 14px;"><center><b>Réceveur</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 90px;"><center><b>Montant</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 80px;"><center><b>Com.</b></center></th>
+                        <th style="color:black; font-size: 14px; width: 85px;"><center><b>Monnaie</b></center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.ref}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.destination}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for client in clients %}
+                                        {% if client.id == transfert.client_id %}
+                                            {{client.prenom}} {{client.nom}} {{client.telephone}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for receveur in receveurs %}
+                                        {% if receveur.id == transfert.receveur_id %}
+                                            {{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.montant|floatformat:2|intcomma}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.commission|floatformat:2|intcomma}}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert.monnaie_id == monnaie.id %}
+                                            {{monnaie.nom}}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2" style="">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4" style="">
+            <p>
+                <b style="font-size: 16px;">Le Caissier</b></br></br></br></br></br>
+            </p>
+        </div>
+        <div class="col-sm-2" style="">
+
+        </div>
+        <div class="col-sm-5">
+            <b style="font-size: 16px;">Le Client</b></br></br></br></br></br></p>
+          <!-- <button type="button" OnClick="javascript:window.print()" class="glyphicon glyphicon-print" style="margin-top: 10px; float: right; margin-left: 50px; height: 50px; font-size: 30px; width: 100px; color: black" data-toggle="modal" data-target="#NewEnvoie"> -->
+        </div>
+        <div class="col-sm-1" style="">
+
+        </div>
+    </div>
+</div>

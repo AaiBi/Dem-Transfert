@@ -1,0 +1,175 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+{% load humanize %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+            <h1 class="h3 mb-2 text-nowrap">Liste de vos Clients</h1>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control" type="text" name="search" placeholder="Entrer un numéro de téléphone">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <button type="submit" class="btn btn-success" name="research" value="research">
+                            Rechercher
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        </br></br>
+
+        {% for client in clients %}
+            <div class="card">
+                <div class="card-body bg-secondary">
+                    <center>
+                        <a class="nav-link-style fs-sm text-nowrap btn btn-info text-white float-right" href="{% url 'nouveau_receveur' client.id %}">
+                            Nouveau transfert
+                        </a>
+                    </center>
+                    <hr>
+                    <ul>
+                        <li>
+                            Nom Client :
+                            <b>
+                                {{client.nom}}
+                            </b>
+                        </li>
+                        <li>
+                            Prénom Client :
+                            <b>
+                                {{client.prenom}}
+                            </b>
+                        </li>
+                        <li>
+                            Téléphone Client :
+                            <b>
+                                {{client.telephone}}
+                            </b>
+                        </li>
+                    </ul>
+                    <hr>
+                    <h4>Liste de vos transferts ({{transferts_number}})</h4>
+                    {% for transfert in transferts %}
+                        {% if transfert.client_id == client.id %}
+                            <div class="card text-white bg-primary mb-3">
+                                <div class="card-body">
+                                    <center>
+                                        <b>
+                                            #{{transfert.ref}} -
+                                            {% load i18n %}
+                                            {% language 'fr' %}
+                                                {{transfert.created|date:'d F Y'}}
+                                            {% endlanguage %}
+                                        </b>
+                                    </center>
+                                    <hr>
+                                    <ul>
+                                        <li>
+                                                Montant :
+                                                <b>
+                                                    {{transfert.montant|floatformat:2|intcomma}}
+                                                    {% for monnaie in monnaies %}
+                                                        {% if transfert.monnaie_id == monnaie.id %}
+                                                            {% if monnaie.nom == "DOLLAR" %}
+                                                                $
+                                                            {% elif monnaie.nom == "EURO" %}
+                                                                €
+                                                            {% elif monnaie.nom == "CFA" %}
+                                                                CFA
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </b>
+                                            </li>
+                                        <li>
+                                                Commission :
+                                                <b>
+                                                    {{transfert.commission|floatformat:2|intcomma}}
+                                                    {% for monnaie in monnaies %}
+                                                        {% if transfert.monnaie_id == monnaie.id %}
+                                                            {% if monnaie.nom == "DOLLAR" %}
+                                                                $
+                                                            {% elif monnaie.nom == "EURO" %}
+                                                                €
+                                                            {% elif monnaie.nom == "CFA" %}
+                                                                CFA
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </b>
+                                            </li>
+                                                    <li>
+                                                Destination :
+                                                <b>
+                                                    {{transfert.destination}}
+                                                </b>
+                                            </li>
+                                    </ul>
+                                    <hr>
+                                    <ul>
+                                        {% for receveur in receveurs %}
+                                            {% if receveur.id == transfert.receveur_id %}
+                                                <li>
+                                                    Nom Receveur :
+                                                    <b>
+                                                        {{receveur.nom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Prénom Receveur :
+                                                    <b>
+                                                        {{receveur.prenom}}
+                                                    </b>
+                                                </li>
+                                                <li>
+                                                    Téléphone Receveur :
+                                                    <b>
+                                                        {{receveur.telephone}}
+                                                    </b>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <p></p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div></br>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

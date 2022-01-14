@@ -1,0 +1,79 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Mon Profile {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+        <div class="py-2 p-md-3">
+            <!-- Title + Delete link-->
+            <div class="d-sm-flex align-items-center justify-content-between pb-4 text-center text-sm-start">
+                <h1 class="h3 mb-2 text-nowrap">Information de votre Profile</h1>
+            </div>
+
+            {% if error %}
+                <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                    {{ error }}
+                </div>
+            {% else %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3 pb-1">
+                            <label class="form-label px-0">Prénom</label>
+                            {{form.first_name}}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3 pb-1">
+                            <label class="form-label px-0">Nom de famille</label>
+                            {{form.last_name}}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3 pb-1">
+                            <label class="form-label px-0">Email</label>
+                            {{form.email}}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3 pb-1">
+                            <label class="form-label px-0">Nom d'utilisateur</label>
+                            <div class="input-group"><span class="input-group-text">@</span>
+                                {{form.username}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                              <div class="form-check d-block">
+                              </div>
+                              <button class="btn text-white mt-3 mt-sm-0" type="submit" name="save_form" value="save_form" style="background-color: #d4ac0d;">
+                                  <i class="ai-save fs-lg me-2"></i>
+                                  Enregistrer les modifications
+                              </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <hr class="mt-2 mb-4">
+        </div>
+    </div>
+{% endblock %}

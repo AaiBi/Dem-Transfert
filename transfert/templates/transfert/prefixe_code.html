@@ -1,0 +1,68 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Prefixe des codes</h1>
+            </center>
+        </div>
+        <hr>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <form class="row needs-validation" novalidate method="POST">
+            <h4 class="mb-2 text-nowrap">Informations sur le transfert</h4>
+            {% csrf_token %}
+
+            <div class="col-sm-12 mb-3">
+                <label class="form-label">Prefixe<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="text" name="prefix_code" required>
+            </div>
+            <div class="col-sm-12">
+                <button class="btn text-white d-block w-100 btn btn-success" type="submit">Ajouter un nouveau prefixe</button>
+            </div>
+        </form>
+        <hr>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-primary">
+                <center>
+                    <h4>Liste de vos anciens prefixes</h4>
+                </center>
+            </li>
+            {% for prefixe in prefixes %}
+                <li class="list-group-item">
+                    Code: <b>{{prefixe.prefix_code}}</b> - ajouté le
+                    {% load i18n %}
+                    {% language 'fr' %}
+                        <b>{{prefixe.created|date:'d F Y'}}</b>
+                    {% endlanguage %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

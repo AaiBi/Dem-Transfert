@@ -1,0 +1,123 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Nouveau Transfert</h1>
+            </center>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <hr>
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h4 class="mb-2 text-nowrap">Enregistrement des informations du Receveur</h4>
+            </center>
+        </div></br>
+
+        <div class="card">
+            <div class="alert alert-info" role="alert">
+                Vous pouvez sélectionner un des anciens receveurs de ce client ou ajouter un nouveau receveur !
+            </div>
+            </br>
+            <div class="card-body bg-secondary">
+                <form class="row needs-validation" novalidate method="POST">
+                    <h5>Sélectionner un des anciens receveurs de ce client</h5>
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <select class="form-select form-control" name="receveur_id" required="">
+                            {% for transfert in transferts %}
+                                {% for receveur in receveurs %}
+                                    {% if receveur.id == transfert.receveur_id %}
+                                        <option value="{{receveur.id}}">{{receveur.prenom}} {{receveur.nom}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <button type="submit" class="btn btn-success" name="select_receveur" value="select_receveur">
+                                    Ajouter
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr>
+            <div class="card-body bg-secondary">
+                <form class="row needs-validation" novalidate method="POST">
+                    <h5>Ajouter un nouveau receveur</h5>
+                    {% csrf_token %}
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label" for="reg-fn">Prénom<sup class="text-danger ms-1">*</sup></label>
+                        <input class="form-control" type="text" name="prenom" required id="reg-fn">
+                        <div class="invalid-feedback">Veuillez entrer votre prénom s'il vous plaît!</div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <label class="form-label" for="reg-ln">Nom de famille<sup class="text-danger ms-1">*</sup></label>
+                        <input class="form-control" type="text" name="nom" required id="reg-ln">
+                        <div class="invalid-feedback">Veuillez entrer votre nom de famille s'il vous plaît!</div>
+                    </div>
+                    <div class="col-sm-12 mb-3">
+                        <label class="form-label" for="reg-ln">Numéro de téléphone<sup class="text-danger ms-1">*</sup></label>
+                        <input class="form-control" type="tel" name="telephone" required id="reg-us">
+                        <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone s'il vous plaît!</div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button class="btn text-white d-block w-100 btn-success" type="submit" name="new_receveur" value="new_receveur">
+                            Ajouter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-2 text-nowrap">Informations du Client</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Nom</b>: {{client.nom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Prénom</b>: {{client.prenom}}
+                    </li>
+                    <li class="list-group-item list-group-item-secondary">
+                        <b>Téléphone</b>: {{client.telephone}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

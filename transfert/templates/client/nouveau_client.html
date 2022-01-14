@@ -1,0 +1,67 @@
+{% extends 'base_app/base.html' %}
+
+{% block title %} Dem Transfert {% endblock %}
+
+{% block profile_active %} active {% endblock %}
+
+{% load static %}
+
+{% block css_styles %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-2 p-md-3">
+        <!-- Title + Delete link-->
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h1 class="mb-2 text-nowrap">Nouveau Transfert</h1>
+            </center>
+        </div>
+        <hr>
+
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" id="alert1" role="alert">
+                {{ error }}
+            </div>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible fade show" id="alert2" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        <div class="d-sm-flex pb-4 text-center text-sm-start">
+            <center>
+                <h4 class="mb-2 text-nowrap">Enregistrement des informations du Client</h4>
+            </center>
+        </div>
+
+        <form class="row needs-validation" novalidate method="POST">
+            {% csrf_token %}
+            <div class="col-sm-12 mb-3">
+                <label class="form-label" for="reg-fn">Prénom<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="text" name="prenom" required id="reg-fn">
+                <div class="invalid-feedback">Veuillez entrer votre prénom s'il vous plaît!</div>
+            </div>
+            <div class="col-sm-12 mb-3">
+                <label class="form-label" for="reg-ln">Nom de famille<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="text" name="nom" required id="reg-ln">
+                <div class="invalid-feedback">Veuillez entrer votre nom de famille s'il vous plaît!</div>
+            </div>
+            <div class="col-sm-12 mb-3">
+                <label class="form-label" for="reg-ln">Numéro de téléphone<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="tel" name="telephone" required id="reg-us">
+                <div class="invalid-feedback">Veuillez entrer votre numéro de téléphone s'il vous plaît!</div>
+            </div>
+            <div class="col-sm-12">
+                <button class="btn text-white d-block w-100 btn-success" type="submit">Ajouter un nouveau client</button>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}
