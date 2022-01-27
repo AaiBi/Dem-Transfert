@@ -65,16 +65,11 @@ def nouveau_receveur(request, customer_pk):
     transferts = Transfert.objects.filter(client_id=customer_pk)
 
     if 'new_receveur' in request.POST:
-        if Receveur.objects.filter(telephone=request.POST.get('telephone')):
-            receveur = get_object_or_404(Receveur, telephone=request.POST.get('telephone'))
-            messages.error(request, 'Ce receveur existe déjà dans votre base de données !')
-            return redirect('nouveau_transfert', customer_pk=customer_pk, receveur_pk=receveur.id)
-        else:
-            form = Receveur_Form(request.POST)
-            form = form.save(commit=False)
-            form.save()
-            messages.success(request, 'Nouveau receveur ajouté avec succès !')
-            return redirect('nouveau_transfert', customer_pk=customer_pk, receveur_pk=form.id)
+        form = Receveur_Form(request.POST)
+        form = form.save(commit=False)
+        form.save()
+        messages.success(request, 'Nouveau receveur ajouté avec succès !')
+        return redirect('nouveau_transfert', customer_pk=customer_pk, receveur_pk=form.id)
 
     if 'select_receveur' in request.POST:
         messages.success(request, 'Receveur sélectionné avec succès !')
@@ -385,6 +380,7 @@ def search_situation_comptable1(request):
         date_search1 = request.POST.get('date_search1')
         date_search2 = request.POST.get('date_search2')
 
+        note = Note.objects.all()
         transferts = Transfert.objects.filter(created__range=(date_search1, date_search2)).order_by('id')
         number_transferts = Transfert.objects.filter(created__range=(date_search1, date_search2)).count()
         total_montant_transfert_dollar = \
@@ -408,7 +404,7 @@ def search_situation_comptable1(request):
 
         return render(request, 'situation_comptable/search_situation_comptable1.html',
                       {'transferts': transferts, 'clients': clients, 'receveurs': receveurs, 'monnaies': monnaies,
-                       'prefixes': prefixes, 'note': note,
+                       'prefixes': prefixes, 'note': note, 'date_search1': date_search1, 'date_search2': date_search2,
                        'number_transferts': number_transferts, 'total_montant_transfert_dollar': total_montant_transfert_dollar,
                        'total_montant_transfert_cfa': total_montant_transfert_cfa, 'total_montant_transfert_euro':
                            total_montant_transfert_euro, 'date_du_jour': date_du_jour,

@@ -45,7 +45,6 @@
                         <th style="color:black; font-size: 14px;"><center><b>Réceveur</b></center></th>
                         <th style="color:black; font-size: 14px; width: 90px;"><center><b>Montant</b></center></th>
                         <th style="color:black; font-size: 14px; width: 80px;"><center><b>Com.</b></center></th>
-                        <th style="color:black; font-size: 14px; width: 85px;"><center><b>Monnaie</b></center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,7 +79,10 @@
                                 <b style="font-size: 15px; color: black">
                                     {% for receveur in receveurs %}
                                         {% if receveur.id == transfert.receveur_id %}
-                                            {{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}
+                                            {{receveur.prenom}} {{receveur.nom}}
+                                            {% if receveur.telephone != "0" %}
+                                                {{receveur.telephone}}
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </b>
@@ -89,23 +91,34 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.montant|floatformat:2|intcomma}}
-                                </b>
-                            </center>
-                        </td>
-                        <td style="word-wrap: break-word;">
-                            <center>
-                                <b style="font-size: 15px; color: black">
-                                    {{transfert.commission|floatformat:2|intcomma}}
-                                </b>
-                            </center>
-                        </td>
-                        <td style="word-wrap: break-word;">
-                            <center>
-                                <b style="font-size: 15px; color: black">
+                                    {{transfert.montant}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
-                                            {{monnaie.nom}}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                cfa
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.commission}}
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert.monnaie_id == monnaie.id %}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                cfa
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </b>
@@ -120,22 +133,12 @@
     </div>
 </div>
 
+</br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-4" style="">
-            <p>
-                <b style="font-size: 16px;">Le Caissier</b></br></br></br></br></br>
-            </p>
-        </div>
-        <div class="col-sm-2" style="">
-
-        </div>
-        <div class="col-sm-5">
-            <b style="font-size: 16px;">Le Client</b></br></br></br></br></br></p>
-          <!-- <button type="button" OnClick="javascript:window.print()" class="glyphicon glyphicon-print" style="margin-top: 10px; float: right; margin-left: 50px; height: 50px; font-size: 30px; width: 100px; color: black" data-toggle="modal" data-target="#NewEnvoie"> -->
-        </div>
-        <div class="col-sm-1" style="">
-
+        <div class="col-sm-12" style="">
+            <span style="float: left">Le Caissier</span>
+            <span style="float: right; margin-right: 60px;">Le Client</span>
         </div>
     </div>
 </div>
@@ -171,15 +174,13 @@
     <div class="row">
         <div class="col-sm-10" style="margin-top: 70px;">
             <p>
-                <center>
-                    <b style="font-size: 16px;">
-                        Dakar le
-                        {% load i18n %}
-                        {% language 'fr' %}
-                            {{date_du_jour|date:'d F Y'}}
-                        {% endlanguage %}
-                    </b>
-                </center>
+                <center><b style="font-size: 16px;">
+                    Dakar le
+                    {% load i18n %}
+                    {% language 'fr' %}
+                        {{date_du_jour|date:'d F Y'}}
+                    {% endlanguage %}
+                </b></center>
             </p>
             <table class="table datatable-sorting" style=" table-layout:fixed;" border="1">
                 <thead>
@@ -190,7 +191,6 @@
                         <th style="color:black; font-size: 14px;"><center><b>Réceveur</b></center></th>
                         <th style="color:black; font-size: 14px; width: 90px;"><center><b>Montant</b></center></th>
                         <th style="color:black; font-size: 14px; width: 80px;"><center><b>Com.</b></center></th>
-                        <th style="color:black; font-size: 14px; width: 85px;"><center><b>Monnaie</b></center></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -225,7 +225,10 @@
                                 <b style="font-size: 15px; color: black">
                                     {% for receveur in receveurs %}
                                         {% if receveur.id == transfert.receveur_id %}
-                                            {{receveur.prenom}} {{receveur.nom}} {{receveur.telephone}}
+                                            {{receveur.prenom}} {{receveur.nom}}
+                                            {% if receveur.telephone != "0" %}
+                                                {{receveur.telephone}}
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </b>
@@ -234,23 +237,34 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.montant|floatformat:2|intcomma}}
-                                </b>
-                            </center>
-                        </td>
-                        <td style="word-wrap: break-word;">
-                            <center>
-                                <b style="font-size: 15px; color: black">
-                                    {{transfert.commission|floatformat:2|intcomma}}
-                                </b>
-                            </center>
-                        </td>
-                        <td style="word-wrap: break-word;">
-                            <center>
-                                <b style="font-size: 15px; color: black">
+                                    {{transfert.montant}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
-                                            {{monnaie.nom}}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                cfa
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </b>
+                            </center>
+                        </td>
+                        <td style="word-wrap: break-word;">
+                            <center>
+                                <b style="font-size: 15px; color: black">
+                                    {{transfert.commission}}
+                                    {% for monnaie in monnaies %}
+                                        {% if transfert.monnaie_id == monnaie.id %}
+                                            {% if monnaie.nom == "DOLLAR" %}
+                                                $
+                                            {% elif monnaie.nom == "EURO" %}
+                                                €
+                                            {% elif monnaie.nom == "CFA" %}
+                                                cfa
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </b>
@@ -265,22 +279,12 @@
     </div>
 </div>
 
+</br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-4" style="">
-            <p>
-                <b style="font-size: 16px;">Le Caissier</b></br></br></br></br></br>
-            </p>
-        </div>
-        <div class="col-sm-2" style="">
-
-        </div>
-        <div class="col-sm-5">
-            <b style="font-size: 16px;">Le Client</b></br></br></br></br></br></p>
-          <!-- <button type="button" OnClick="javascript:window.print()" class="glyphicon glyphicon-print" style="margin-top: 10px; float: right; margin-left: 50px; height: 50px; font-size: 30px; width: 100px; color: black" data-toggle="modal" data-target="#NewEnvoie"> -->
-        </div>
-        <div class="col-sm-1" style="">
-
+        <div class="col-sm-12" style="">
+            <span style="float: left">Le Caissier</span>
+            <span style="float: right; margin-right: 60px;">Le Client</span>
         </div>
     </div>
 </div>
