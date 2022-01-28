@@ -271,7 +271,7 @@
                             {% if total_montant_transfert_euro == None %}
 
                             {% else %}
-                                {{total_montant_transfert_euro}}
+                                {{total_montant_transfert_euro|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
@@ -280,7 +280,7 @@
                             {% if total_commission_transfert_euro == None %}
 
                             {% else %}
-                                {{total_commission_transfert_euro}}
+                                {{total_commission_transfert_euro|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
@@ -289,7 +289,7 @@
                             {% if total_montant_transfert_dollar == None %}
 
                             {% else %}
-                                {{total_montant_transfert_dollar}}
+                                {{total_montant_transfert_dollar|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
@@ -298,7 +298,7 @@
                             {% if total_commission_transfert_dollar == None %}
 
                             {% else %}
-                                {{total_commission_transfert_dollar}}
+                                {{total_commission_transfert_dollar|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
@@ -307,7 +307,7 @@
                             {% if total_montant_transfert_cfa == None %}
 
                             {% else %}
-                                {{total_montant_transfert_cfa}}
+                                {{total_montant_transfert_cfa|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
@@ -316,7 +316,7 @@
                             {% if total_commission_transfert_cfa == None %}
 
                             {% else %}
-
+                                {{total_commission_transfert_cfa|floatformat:0|intcomma}}
                             {% endif %}
                         </b></center>
                     </td>
