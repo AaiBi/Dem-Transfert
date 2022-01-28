@@ -91,7 +91,7 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.montant}}
+                                    {{transfert.montant|floatformat:0|intcomma}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
                                             {% if monnaie.nom == "DOLLAR" %}
@@ -109,7 +109,7 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.commission}}
+                                    {{transfert.commission|floatformat:0|intcomma}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
                                             {% if monnaie.nom == "DOLLAR" %}
@@ -237,7 +237,7 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.montant}}
+                                    {{transfert.montant|floatformat:0|intcomma}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
                                             {% if monnaie.nom == "DOLLAR" %}
@@ -255,7 +255,7 @@
                         <td style="word-wrap: break-word;">
                             <center>
                                 <b style="font-size: 15px; color: black">
-                                    {{transfert.commission}}
+                                    {{transfert.commission|floatformat:0|intcomma}}
                                     {% for monnaie in monnaies %}
                                         {% if transfert.monnaie_id == monnaie.id %}
                                             {% if monnaie.nom == "DOLLAR" %}

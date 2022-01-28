@@ -114,10 +114,10 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                {{transfert.montant|floatformat:2|intcomma}}
+                                {{transfert.montant|floatformat:0|intcomma}}
                             </td>
                             <td>
-                                {{transfert.commission|floatformat:2|intcomma}}
+                                {{transfert.commission|floatformat:0|intcomma}}
                             </td>
                             <td>
                             {% for monnaie in monnaies %}

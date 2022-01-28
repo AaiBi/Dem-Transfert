@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -189,7 +190,7 @@
                             {% for client in clients %}
                                 {% if client.id == transfert.client_id %}
                                     <td style="border: solid;">
-                                        <b>{{client.prenom}} {{client.nom}} {{client.telephone}}</b>
+                                        <b>{{client.prenom}} {{client.nom}}</b>
                                     </td>
                                 {% endif %}
                             {% endfor %}
@@ -208,7 +209,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "EURO" %}
-                                            <center><b>{{transfert.montant}}</b></center>
+                                            <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -217,7 +218,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "EURO" %}
-                                            <center><b>{{transfert.commission}}</b></center>
+                                            <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -226,7 +227,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "DOLLAR" %}
-                                            <center><b>{{transfert.montant}}</b></center>
+                                            <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -235,7 +236,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "DOLLAR" %}
-                                            <center><b>{{transfert.commission}}</b></center>
+                                            <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -244,7 +245,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "CFA" %}
-                                            <center><b>{{transfert.montant}}</b></center>
+                                            <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -253,7 +254,7 @@
                                 {% for monnaie in monnaies %}
                                     {% if monnaie.id == transfert.monnaie_id %}
                                         {% if monnaie.nom == "CFA" %}
-                                            <center><b>{{transfert.commission}}</b></center>
+                                            <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}

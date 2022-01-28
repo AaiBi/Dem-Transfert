@@ -199,7 +199,7 @@
                                                 <li>
                                                     Montant :
                                                     <b>
-                                                        {{transfert.montant|floatformat:2|intcomma}}
+                                                        {{transfert.montant|floatformat:0|intcomma}}
                                                         {% for monnaie in monnaies %}
                                                             {% if transfert.monnaie_id == monnaie.id %}
                                                                 {% if monnaie.nom == "DOLLAR" %}
@@ -220,7 +220,7 @@
                                                 <li>
                                                     Commission :
                                                     <b>
-                                                        {{transfert.commission|floatformat:2|intcomma}}
+                                                        {{transfert.commission|floatformat:0|intcomma}}
                                                         {% for monnaie in monnaies %}
                                                             {% if transfert.monnaie_id == monnaie.id %}
                                                                 {% if monnaie.nom == "DOLLAR" %}

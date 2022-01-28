@@ -171,7 +171,7 @@
                 {% for client in clients %}
                     {% if client.id == transfert.client_id %}
                         <td style="border: solid; word-wrap: break-word;">
-                            <b>{{client.prenom}} {{client.nom}} {{client.telephone}}</b>
+                            <b>{{client.prenom}} {{client.nom}}</b>
                         </td>
                     {% endif %}
                 {% endfor %}
@@ -186,7 +186,7 @@
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "EURO" %}
-                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                                <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -195,7 +195,7 @@
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "DOLLAR" %}
-                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                                <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -204,7 +204,7 @@
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "CFA" %}
-                                <center><b>{{transfert.montant|floatformat:2|intcomma}}</b></center>
+                                <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -221,7 +221,7 @@
                     {% if total_montant_transfert_euro == None %}
                         0
                     {% else %}
-                        {{total_montant_transfert_euro|floatformat:2|intcomma}}
+                        {{total_montant_transfert_euro|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
@@ -230,7 +230,7 @@
                     {% if total_commission_transfert_euro == None %}
                         0
                     {% else %}
-                        {{total_commission_transfert_euro|floatformat:2|intcomma}}
+                        {{total_commission_transfert_euro|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
@@ -239,7 +239,7 @@
                     {% if total_montant_transfert_dollar == None %}
                         0
                     {% else %}
-                        {{total_montant_transfert_dollar|floatformat:2|intcomma}}
+                        {{total_montant_transfert_dollar|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
@@ -248,7 +248,7 @@
                     {% if total_commission_transfert_dollar == None %}
                         0
                     {% else %}
-                        {{total_commission_transfert_dollar|floatformat:2|intcomma}}
+                        {{total_commission_transfert_dollar|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
@@ -257,7 +257,7 @@
                     {% if total_montant_transfert_cfa == None %}
                         0
                     {% else %}
-                        {{total_montant_transfert_cfa|floatformat:2|intcomma}}
+                        {{total_montant_transfert_cfa|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
@@ -266,7 +266,7 @@
                     {% if total_commission_transfert_cfa == None %}
                         0
                     {% else %}
-                        {{total_commission_transfert_cfa|floatformat:2|intcomma}}
+                        {{total_commission_transfert_cfa|floatformat:0|intcomma}}
                     {% endif %}
                 </b></center>
             </td>
