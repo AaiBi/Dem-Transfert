@@ -37,7 +37,10 @@
             <div class="col-sm-12 bg-secondary">
                 <form class="row needs-validation" novalidate method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="ref" value="{{transfert.ref}}">
+                    <div class="col-sm-4 mb-3">
+                        <label class="form-label">Code</label>
+                        <input class="form-control" type="number" name="ref" value="{{code_last_transfert}}">
+                    </div>
                     <div class="col-sm-4 mb-3">
                         <label class="form-label">
                             Monnaie
@@ -61,11 +64,11 @@
                         <label class="form-label">Commission</label>
                         <input class="form-control" type="number" name="commission" value="{{transfert.commission}}">
                     </div>
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-4 mb-3">
                         <label class="form-label">Destination</label>
                         <input class="form-control" type="text" name="destination" value="{{transfert.destination}}">
                     </div>
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-4 mb-3">
                         <label class="form-label">Date</label>
                         <input class="form-control" type="date" name="created" value="{{transfert.created|date:'Y-m-d'}}">
                     </div>

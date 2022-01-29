@@ -174,17 +174,30 @@ def edit_transfert(request, transfert_pk):
     monnaies = Monnaie.objects.all()
     prefixes = Prefix_Code_Letter.objects.all().last()
 
+    p = '[\d]+[.,\d]+|[\d]*[.][\d]+|[\d]+'
+    s = transfert.ref
+    # on extrait le nombre de la reference
+    if re.search(p, s) is not None:
+        for catch in re.finditer(p, s):
+            code_last_transfert = catch[0]  # catch is a match object
+    # on ajoute 1 au nombre receupere, il sera utilise pour la prochaine reference
+    code_last_transfert = int(code_last_transfert)
+
     if request.method == 'GET':
         form = Transfert_Form(instance=transfert)
         return render(request, 'transfert/edit_transfert.html',
                       {'transfert': transfert, 'clients': clients, 'receveurs': receveurs, 'monnaies': monnaies,
-                          'prefixes': prefixes, 'form': form})
+                          'prefixes': prefixes, 'form': form, 'code_last_transfert': code_last_transfert})
     else:
         try:
             if 'edit_transfert' in request.POST:
                 form = Transfert_Form(request.POST, instance=transfert)
                 if form.is_valid():
                     form = form.save(commit=False)
+                    # creation of the ref
+                    form.ref = prefixes.prefix_code
+                    ref = request.POST.get('ref')
+                    form.ref += str(ref)
                     #form.client = get_object_or_404(Client, id=request.POST.get('client_id'))
                     form.monnaie = get_object_or_404(Monnaie, id=request.POST.get('monnaie_id'))
                     #form.receveur = get_object_or_404(Receveur, id=request.POST.get('receveur_id'))
@@ -213,7 +226,8 @@ def edit_transfert(request, transfert_pk):
         except ValueError:
             return render(request, 'transfert/edit_transfert.html',
                           {'transfert': transfert, 'clients': clients, 'receveurs': receveurs, 'monnaies': monnaies,
-                          'prefixes': prefixes, 'form': form, 'error': 'Mauvaises données saisies !'})
+                          'prefixes': prefixes, 'form': form, 'code_last_transfert': code_last_transfert,
+                           'error': 'Mauvaises données saisies !'})
 
 
 @login_required
