@@ -115,6 +115,7 @@ def nouveau_transfert(request, customer_pk, receveur_pk):
             form.ref = prefixes.prefix_code
             ref = request.POST.get('ref')
             form.ref += str(ref)
+            print(form.ref)
 
             if Transfert.objects.filter(ref=form.ref):
                 messages.error(request, 'Cette référence existe déjà dans votre base de données, utiliser une autre !')
