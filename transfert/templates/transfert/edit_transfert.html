@@ -38,8 +38,12 @@
                 <form class="row needs-validation" novalidate method="POST">
                     {% csrf_token %}
                     <div class="col-sm-4 mb-3">
+                        <label class="form-label">Préfixe</label>
+                        <input class="form-control" type="text" name="prefixe" value="{{transfert.prefixe}}">
+                    </div>
+                    <div class="col-sm-4 mb-3">
                         <label class="form-label">Code</label>
-                        <input class="form-control" type="number" name="ref" value="{{code_last_transfert}}">
+                        <input class="form-control" type="number" name="ref" value="{{transfert.ref}}">
                     </div>
                     <div class="col-sm-4 mb-3">
                         <label class="form-label">
@@ -56,19 +60,19 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-sm-6 mb-3">
                         <label class="form-label">Montant</label>
                         <input class="form-control" type="number" name="montant" value="{{transfert.montant}}">
                     </div>
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-sm-6 mb-3">
                         <label class="form-label">Commission</label>
                         <input class="form-control" type="number" name="commission" value="{{transfert.commission}}">
                     </div>
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-sm-6 mb-3">
                         <label class="form-label">Destination</label>
                         <input class="form-control" type="text" name="destination" value="{{transfert.destination}}">
                     </div>
-                    <div class="col-sm-4 mb-3">
+                    <div class="col-sm-6 mb-3">
                         <label class="form-label">Date</label>
                         <input class="form-control" type="date" name="created" value="{{transfert.created|date:'Y-m-d'}}">
                     </div>

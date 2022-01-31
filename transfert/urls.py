@@ -11,7 +11,6 @@ urlpatterns = [
     path('print_transfert/<int:transfert_pk>', views.print_transfert, name='print_transfert'),
 
     path('client/', views.client, name='client'),
-    path('codes/', views.prefixe_code, name='prefixe_code'),
 
     path('situation_comptable/', views.situation_comptable, name='situation_comptable'),
     path('situation_comptable_du_jour/', views.situation_comptable_du_jour, name='situation_comptable_du_jour'),

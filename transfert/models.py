@@ -28,8 +28,17 @@ class Monnaie(models.Model):
         return self.nom
 
 
+class Prefix_Code_Letter(models.Model):
+    prefix_code = models.CharField(max_length=20)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.prefix_code
+
+
 class Transfert(models.Model):
     ref = models.CharField(max_length=300)
+    prefixe = models.CharField(max_length=300, default="")
     montant = models.IntegerField()
     commission = models.IntegerField()
     destination = models.CharField(max_length=300)
@@ -45,11 +54,3 @@ class Transfert(models.Model):
 class Note(models.Model):
     message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-
-
-class Prefix_Code_Letter(models.Model):
-    prefix_code = models.CharField(max_length=20)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.prefix_code

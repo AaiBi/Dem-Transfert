@@ -185,7 +185,7 @@
                         <div class="accordion-item shadow">
                             <h2 class="accordion-header" id="faq-heading-{{transfert.id}}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-{{transfert.id}}" aria-expanded="true" aria-controls="faq-content-{{transfert.id}}">
-                                    #{{transfert.ref}}
+                                    #{{transfert.prefixe}}{{transfert.ref}}
                                 </button>
                             </h2>
                             <div class="accordion-collapse collapse" id="faq-content-{{transfert.id}}" aria-labelledby="faq-heading-{{transfert.id}}" data-bs-parent="#faq">
@@ -273,19 +273,19 @@
                                         {% for receveur in receveurs %}
                                             {% if receveur.id == transfert.receveur_id %}
                                                 <li>
-                                                    Nom Client :
+                                                    Nom Receveur :
                                                     <b>
                                                         {{receveur.nom}}
                                                     </b>
                                                 </li>
                                                 <li>
-                                                    Prénom Client :
+                                                    Prénom Receveur :
                                                     <b>
                                                         {{receveur.prenom}}
                                                     </b>
                                                 </li>
                                                 <li>
-                                                    Téléphone Client :
+                                                    Téléphone Receveur :
                                                     <b>
                                                         {{receveur.telephone}}
                                                     </b>

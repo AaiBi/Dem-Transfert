@@ -42,6 +42,10 @@
                 </li>
             </ul>
             <div class="col-sm-4 mb-3">
+                <label class="form-label">Prefixe<sup class="text-danger ms-1">*</sup></label>
+                <input class="form-control" type="text" name="prefixe" value="{{dernier_transfert.prefixe}}" required>
+            </div>
+            <div class="col-sm-4 mb-3">
                 <label class="form-label">Code<sup class="text-danger ms-1">*</sup></label>
                 <input class="form-control" type="number" name="ref" value="{{code_last_transfert}}" required>
             </div>
@@ -49,11 +53,11 @@
                 <label class="form-label">Montant<sup class="text-danger ms-1">*</sup></label>
                 <input class="form-control" type="number" name="montant" required>
             </div>
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
                 <label class="form-label">Commission<sup class="text-danger ms-1">*</sup></label>
                 <input class="form-control" type="number" name="commission" required>
             </div>
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
                 <label class="form-label">Monnaie<sup class="text-danger ms-1">*</sup></label>
                 <select class="form-select form-control" name="monnaie_id" required="">
                     <option selected disabled value="">-------------------------</option>
@@ -62,11 +66,11 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
                 <label class="form-label">Destination<sup class="text-danger ms-1">*</sup></label>
                 <input class="form-control" type="text" name="destination" required>
             </div>
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
                 <label class="form-label">Date<sup class="text-danger ms-1">*</sup></label>
                 <input class="form-control" type="date" name="created" value="{{date_du_jour|date:'Y-m-d'}}">
             </div>

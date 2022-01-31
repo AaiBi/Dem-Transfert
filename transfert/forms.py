@@ -6,7 +6,7 @@ class Transfert_Form(forms.ModelForm):
     class Meta:
         model = Transfert
         fields = [
-            'ref', 'montant', 'commission', 'destination', 'created'
+            'ref', 'prefixe', 'montant', 'commission', 'destination', 'created'
         ]
 
 

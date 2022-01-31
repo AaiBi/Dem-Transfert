@@ -129,8 +129,8 @@
 
 
                                     {% load i18n %}
-                                    {% language 'fr' %}
-
+                                    {% language 'en' %}
+                                        {{ search|date:'D, d N' }}
                                     {% endlanguage %}
                                 <u></u> </b> </center>
                         </span>
@@ -163,7 +163,7 @@
 
             <tr class="table" style="border: solid; color: black; ">
                 <td style="border: solid; word-wrap: break-word;">
-                    <b>{{transfert.ref}}</b>
+                    <b>{{transfert.prefixe}}{{transfert.ref}}</b>
                 </td>
                 <td style="border: solid; word-wrap: break-word;">
                     <b>{{transfert.destination}}</b>

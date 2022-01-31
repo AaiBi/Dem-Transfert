@@ -182,7 +182,7 @@
                     {% if transfert.created|date:'Y-m-d' == date_du_jour|date:'Y-m-d' %}
                         <tr class="table">
                             <td style="border: solid;">
-                                <b>{{transfert.ref}}</b>
+                                <b>{{transfert.prefixe}}{{transfert.ref}}</b>
                             </td>
                             <td style="border: solid;">
                                 <b>{{transfert.destination}}</b>

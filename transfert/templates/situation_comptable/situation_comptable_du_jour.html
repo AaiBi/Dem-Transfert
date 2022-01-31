@@ -97,7 +97,7 @@
                 {% for transfert in transferts %}
                     {% if transfert.created|date:'d F Y' == date_du_jour|date:'d F Y' %}
                         <tr>
-                            <th scope="row">{{transfert.ref}}</th>
+                            <th scope="row">{{transfert.prefixe}}{{transfert.ref}}</th>
                             <td>{{transfert.destination}}</td>
                             <td>
                                 {% for client in clients %}
