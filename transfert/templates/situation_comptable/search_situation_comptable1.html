@@ -157,11 +157,11 @@
             <th style="border: solid; width: 200px;" colspan="2"><center><b>CFA</b></center></th>
         </tr>
     </thead>
-    <tbody style="border:solid">
+    <tbody style="">
 
         {% for transfert in transferts %}
 
-            <tr class="table" style="border: solid; color: black; ">
+            <tr class="table">
                 <td style="border: solid; word-wrap: break-word;">
                     <b>{{transfert.prefixe}}{{transfert.ref}}</b>
                 </td>
@@ -182,7 +182,7 @@
                         </td>
                     {% endif %}
                 {% endfor %}
-                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "EURO" %}
@@ -191,7 +191,16 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "EURO" %}
+                                <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "DOLLAR" %}
@@ -200,11 +209,29 @@
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td style="border: solid; word-wrap: break-word;" colspan="2">
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "DOLLAR" %}
+                                <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
                     {% for monnaie in monnaies %}
                         {% if monnaie.id == transfert.monnaie_id %}
                             {% if monnaie.nom == "CFA" %}
                                 <center><b>{{transfert.montant|floatformat:0|intcomma}}</b></center>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="border: solid; word-wrap: break-word;" rowspan="1">
+                    {% for monnaie in monnaies %}
+                        {% if monnaie.id == transfert.monnaie_id %}
+                            {% if monnaie.nom == "CFA" %}
+                                <center><b>{{transfert.commission|floatformat:0|intcomma}}</b></center>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
